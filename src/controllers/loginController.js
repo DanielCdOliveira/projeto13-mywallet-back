@@ -15,6 +15,7 @@ export default async function logIn(req, res) {
         userId: user._id,
         token,
       });
+      console.log("foi");
       res.send({token, name:user.name})
     } else {
       res.sendStatus(404);
