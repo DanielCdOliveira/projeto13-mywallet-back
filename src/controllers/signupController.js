@@ -18,11 +18,9 @@ export default async function signUp(req, res) {
   }
   try {
     const doesExist = await db.collection("users").findOne({ email: user.email });
-    console.log(doesExist)
     if (doesExist) return res.sendStatus(409);
     delete user.repPassword
     user.password = bcrypt.hashSync(user.password, 10);
-    console.log(user);
     await db.collection("users").insertOne(user)
     res.sendStatus(201)
   } catch (error) {
