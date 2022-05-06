@@ -20,9 +20,9 @@ export default async function postTransaction(req, res) {
         data.userId = user._id
         console.log(data);
         db.collection("transactions").insertOne(data)
-        res.send(201)
+        res.sendStatus(201)
     }else{
-        res.send(404)
+        res.sendStatus(404)
     }
 
 // colocar try e catch
