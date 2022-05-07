@@ -11,17 +11,18 @@ export default async function getTransactions(req, res) {
     _id: session.userId,
   });
   if (user) {
+    let balance = 0
     let transactions = await db
       .collection("transactions")
       .find({ userId: user._id })
       .toArray();
-    transactions.map((e) => {
-      console.log(e);
+    await transactions.map((e) => {
+      if(e.type)balance+=e.value
+      else balance -= e.value
       delete e.userId;
     });
-    // adicionar o saldo usando o map
-    console.log(transactions);
-    res.send(transactions);
+
+    res.send({transactions, balance});
   } else {
     res.sendStatus(404);
   }
