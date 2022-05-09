@@ -2,11 +2,9 @@ import db from "../db.js";
 import dayjs from "dayjs";
 import { ObjectId } from "mongodb";
 export async function postTransaction(req, res) {
-  const { authorization } = req.headers;
   const data = req.body;
-  const token = authorization?.replace("Bearer ", "");
   try {
-    const session = await db.collection("sessions").findOne({ token });
+    const session = res.locals.session;
     const user = await db.collection("users").findOne({
       _id: session.userId,
     });
@@ -27,11 +25,10 @@ export async function postTransaction(req, res) {
 }
 
 export async function deleteTransaction(req, res) {
-  const { authorization } = req.headers;
   const { idTransaction } = req.body;
-  const token = authorization?.replace("Bearer ", "");
+
   try {
-    const session = await db.collection("sessions").findOne({ token });
+    const session = res.locals.session;
     const user = await db.collection("users").findOne({
       _id: session.userId,
     });
@@ -49,11 +46,10 @@ export async function deleteTransaction(req, res) {
 
 export async function editTransaction(req, res) {
   const transaction = req.body.data;
-  const { authorization } = req.headers;
   const idTransaction = req.params.id;
-  const token = authorization?.replace("Bearer ", "");
+
   try {
-    const session = await db.collection("sessions").findOne({ token });
+    const session = res.locals.session;
     const user = await db.collection("users").findOne({
       _id: session.userId,
     });
