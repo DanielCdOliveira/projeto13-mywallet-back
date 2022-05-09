@@ -2,9 +2,6 @@ import express, { json } from "express";
 import chalk from "chalk";
 import cors from "cors";
 import dotenv from "dotenv";
-import joi from "joi";
-import { stripHtml } from "string-strip-html";
-import db from "./db.js";
 // ROUTES
 import router from "./routers/routes.js";
 // INICIALIZATION
@@ -12,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(json());
 dotenv.config();
-app.use(router)
+app.use(router);
 
 const port = process.env.PORT;
 app.listen(port, () =>

@@ -12,8 +12,6 @@ export async function postTransaction(req, res) {
       data.date = dayjs().format("DD/MM");
       data.userId = user._id;
       data.value = round(parseFloat(data.value));
-      console.log(data.value);
-      console.log(data);
       db.collection("transactions").insertOne(data);
       res.sendStatus(201);
     } else {
@@ -32,7 +30,6 @@ export async function deleteTransaction(req, res) {
     const user = await db.collection("users").findOne({
       _id: session.userId,
     });
-    console.log(user);
     if (user) {
       db.collection("transactions").deleteOne({ _id: ObjectId(idTransaction) });
       res.sendStatus(200);
@@ -53,7 +50,6 @@ export async function editTransaction(req, res) {
     const user = await db.collection("users").findOne({
       _id: session.userId,
     });
-    console.log(user);
     if (user) {
       db.collection("transactions").updateOne(
         { _id: ObjectId(idTransaction) },

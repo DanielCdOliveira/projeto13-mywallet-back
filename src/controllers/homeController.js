@@ -1,9 +1,7 @@
 import db from "../db.js";
 
 export default async function getTransactions(req, res) {
-  const { authorization } = req.headers;
-  const token = authorization?.replace("Bearer ", "");
-  const session = await db.collection("sessions").findOne({ token });
+  const session = res.locals.session;
   const user = await db.collection("users").findOne({
     _id: session.userId,
   });
