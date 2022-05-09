@@ -1,5 +1,6 @@
 import db from "../db.js";
 import dayjs from "dayjs";
+import { ObjectId } from "mongodb";
 export async function postTransaction(req, res) {
   //criar middleware
   const { authorization } = req.headers;
@@ -32,10 +33,27 @@ export async function postTransaction(req, res) {
 
 export async function deleteTransaction(req, res) {
   const { authorization } = req.headers;
-  const data = req.body;
+  const { idTransaction} = req.body;
   const token = authorization?.replace("Bearer ", "");
   console.log(token);
-  console.log(data);
+  console.log(idTransaction);
+
+  if (!token) return res.sendStatus(401);
+  const session = await db.collection("sessions").findOne({ token });
+  if (!session) return res.sendStatus(401);
+  const user = await db.collection("users").findOne({
+    _id: session.userId,
+  });
+  console.log(user);
+  if (user) {
+    db.collection("transactions").deleteOne({_id:ObjectId(idTransaction)});
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
+
+
+
 }
 
 function round(n) {
