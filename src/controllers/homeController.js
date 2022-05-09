@@ -17,13 +17,18 @@ export default async function getTransactions(req, res) {
       .find({ userId: user._id })
       .toArray();
     await transactions.map((e) => {
-      if(e.type)balance+=e.value
-      else balance -= e.value
+      let value = parseFloat(e.value)
+      if(e.type)balance+=value
+      else balance -= value
       delete e.userId;
     });
-
+    balance = round(balance)
     res.send({transactions, balance});
   } else {
     res.sendStatus(404);
   }
+}
+
+function round(n) {
+    return (Math.round(n * 100) / 100).toFixed(2);
 }

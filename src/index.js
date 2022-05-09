@@ -8,7 +8,7 @@ import db from "./db.js";
 // CONTROLLERS
 import signUp from "./controllers/signupController.js"
 import logIn from "./controllers/loginController.js";
-import postTransaction from "./controllers/transactionController.js";
+import { postTransaction, deleteTransaction } from "./controllers/transactionController.js";
 import getTransactions from "./controllers/homeController.js";
 // INICIALIZATION
 const app = express();
@@ -24,7 +24,7 @@ app.get("/home",getTransactions)
 
 app.post("/transaction", postTransaction)
 
-
+app.delete("/transaction",deleteTransaction)
 const port = process.env.PORT;
 app.listen(port, () =>
   console.log(chalk.bold.green(`Servidor em pé na porta ${port}`))
